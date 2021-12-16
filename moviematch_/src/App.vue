@@ -13,6 +13,7 @@
 
 <script>
   import Nav from './components/Nav.vue';
+  const regeneratorRuntime = require("regenerator-runtime");
 
 
   export default {
