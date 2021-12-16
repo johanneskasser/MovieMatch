@@ -1,9 +1,18 @@
 const express = require('express')
 const routes = require('./routes/routes')
-const mongoose = require("mongoose");
+const mongoose = require("mongoose")
+const cookieparser = require('cookie-parser')
+const cors = require('cors')
 require('dotenv/config')
 
 app = express()
+
+app.use(cors({
+    credentials: true,
+    origin: ['http://localhost:8080']
+}))
+
+app.use(cookieparser())
 
 mongoose.connect(process.env.MovieMatchDB_Connection, {
         useNewUrlParser: true,
@@ -16,6 +25,7 @@ mongoose.connection
     })
 app.use(express.json())
 app.use('/api', routes)
+
 
 
 app.listen(8000)

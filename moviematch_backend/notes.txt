@@ -5,6 +5,8 @@ npm i --save-dev nodemon
 npm i mongoose
 npm i bcryptjs
 npm i dotenv
+npm install jsonwebtoken
+
 
 
 
