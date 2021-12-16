@@ -1,0 +1,12 @@
+to insall, you need to execute commands
+
+npm i express --save
+npm i --save-dev nodemon
+npm i mongoose
+npm i bcryptjs
+npm i dotenv
+
+
+
+download mongodb here: https://docs.mongodb.com/manual/tutorial/install-mongodb-on-windows-unattended/
+--> follow the instructions
