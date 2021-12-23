@@ -17,7 +17,7 @@
       <input type="password" class="form-control" v-model="password" placeholder="Password"/>
     </div>
 
-    <button class="btn btn-primary btn-block">Create</button>
+    <button class="btn btn-dark btn-lg btn-block button_alignment">Create</button>
   </form>
 
 </template>

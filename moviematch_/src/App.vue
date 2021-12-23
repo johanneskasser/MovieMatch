@@ -1,13 +1,13 @@
 <template>
-  <div id="app">
+  <div class="vue-template">
     <Nav />
-
-    <div class="auth-wrapper">
-      <div class="auth-inner">
-        <router-view />
+    <div class="App">
+      <div class="vertical-center">
+        <div class="inner-block">
+          <router-view />
+        </div>
       </div>
     </div>
-
   </div>
 </template>
 

@@ -1,28 +1,23 @@
 <template>
-
-  <div id="app">
-    <nav class="navbar navbar-expand navbar-light fixed-top">
+    <nav class="navbar shadow bg-white rounded justify-content-between flex-nowrap flex-row fixed-top">
       <div class="container">
-        <router-link to="/" class="navbar-brand">Home</router-link>
-        <a href="#" class="collapse navbar-collapse">
-          <ul class="navbar-nav ml-auto" v-if="!user">
-            <li class="nav-item">
-              <router-link to="/login" class="nav-link">Login</router-link>
-            </li>
-            <li class="nav-item">
-              <router-link to="/register" class="nav-link">Sign Up</router-link>
-            </li>
-          </ul>
-          <ul class="navbar-nav ml-auto" v-if="user">
-            <li class="nav-item">
-              <router-link @click.native="logout" to="/login">Logout</router-link>
-            </li>
-          </ul>
-        </a>
+        <router-link to="/" class="navbar-brand float-left"><h1 id="movie">Movie<span id="match">Match</span></h1></router-link>
+        <ul class="nav navbar-nav flex-row float-right" v-if="!user">
+          <li class="nav-item">
+            <router-link to="/login" class="btn btn-outline-primary navbar_button">Login</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link to="/register" class="btn btn-outline-primary">Sign Up</router-link>
+          </li>
+        </ul>
+        <ul class="navbar-nav ml-auto" v-if="user">
+          <li class="nav-item">
+            <router-link @click.native="logout" to="/login" class="btn btn-outline-primary">Logout</router-link>
+          </li>
+        </ul>
       </div>
     </nav>
 
-  </div>
 
 </template>
 

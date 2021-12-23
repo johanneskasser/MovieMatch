@@ -1,24 +1,33 @@
 <template>
-  <form @submit.prevent="handleSubmit">
-    <h3>Login</h3>
+  <div class="vue-template">
+    <form @submit.prevent="handleSubmit">
+      <h3>Login</h3>
 
-    <div class="form-group">
-      <label>Email</label>
-      <input type="email" class="form-control" v-model='email' placeholder="Email"/>
-    </div>
+      <div class="form-group">
+        <label>E-Mail Address</label>
+        <input type="email" class="form-control form-control-lg" v-model='email' placeholder="E-Mail Address"/>
+      </div>
 
-    <div class="form-group">
-      <label>Password</label>
-      <input type="password" class="form-control" v-model='password' placeholder="Password"/>
-    </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" class="form-control form-control-lg" v-model='password' placeholder="Password"/>
+      </div>
 
-    <button class="btn btn-primary btn-block">Login</button>
-  </form>
+
+      <button type="submit" class="btn btn-dark btn-lg btn-block button_alignment">Login</button>
+
+      <p class="forgot-password text-right mt-2 mb-4">
+        <router-link to="/">Forgot password ?</router-link>
+      </p>
+    </form>
+
+  </div>
 
 </template>
 
 <script>
 import axios from "axios";
+import md_icon from 'vue-material-design-icons/Menu.vue'
 
 export default {
   name: "Login",
