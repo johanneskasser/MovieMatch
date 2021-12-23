@@ -52,8 +52,8 @@ router.post('/login', async (req, res) => {
     })
 
     res.send({
-        message: 'success',
-        token: token
+        message: 'success'
+        //token: token
     })
 })
 

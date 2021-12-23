@@ -30,12 +30,20 @@ export default {
   },
   methods: {
     async handleSubmit() {
-      const response = await axios.post('login', {
-        email: this.email,
-        password: this.password
+      const response = await axios({
+        method: 'post',
+        url: 'login',
+        headers: {'Content-Type': 'application/json'},
+        credentials: 'include',
+        data: {
+          email: this.email,
+          password: this.password
+        }
       })
+      await this.$store.dispatch('user', response.data.user)
       console.log(response)
-      localStorage.setItem('token', response.data.token);
+      //localStorage.setItem('token', response.data.token)
+      await this.$router.push('/')
     }
   }
 }

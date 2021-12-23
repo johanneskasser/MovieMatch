@@ -35,12 +35,16 @@
       },
       methods: {
         async handleSubmit(){
-          const data = {
-            username: this.username,
-            email: this.email,
-            password: this.password
-          }
-          const response = await axios.post('register', data);
+          const response = await axios({
+            method: 'post',
+            url: 'register',
+            headers: {'Content-Type': 'application/json'},
+            data: {
+              username: this.username,
+              email: this.email,
+              password: this.password
+            }
+          })
           console.log(response)
           await this.$router.push('/login')
         }

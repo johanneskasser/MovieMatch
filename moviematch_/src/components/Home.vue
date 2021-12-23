@@ -1,16 +1,19 @@
 <template>
-  <h3> Hello </h3>
+  <h3 v-if="user"> Hi, {{user.username}} </h3>
+  <h3 v-else>You are not logged in!</h3>
 </template>
 
 <script>
-  import axios from "axios";
+import {mapGetters} from "vuex";
 
   export default {
-    name: 'Home',
-    async created() {
-      const response = await axios.get('user');
-
-      console.log(response);
+    name: "Home",
+    //props: ['user']
+    computed: {
+      ...mapGetters({
+        user: 'user'
+      })
     }
   }
+
 </script>
