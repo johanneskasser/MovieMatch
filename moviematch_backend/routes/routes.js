@@ -2,7 +2,10 @@ const router = require('express').Router()
 const User = require('../models/user')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const crypto = require('crypto')
 require('dotenv/config')
+const sendEmail = require("../services/sendMail");
+const Token = require("../models/token")
 
 router.post('/register', async (req, res) => {
     const duplicate = await User.findOne({email: req.body.email})
@@ -88,6 +91,67 @@ router.post('/logout', (req,res) => {
     res.send({
         message: 'success'
     })
+})
+
+router.post('/forgot-password', async (req, res) => {
+    const user = await User.findOne({ email: req.body.email });
+
+    if (!user) {
+        res.status(404).send({message: 'User does not exist'});
+    } else {
+        let token = await Token.findOne({ userId: user._id });
+        if (token) await token.deleteOne();
+        let resetToken = crypto.randomBytes(32).toString("hex");
+        const salt = await bcrypt.genSalt(10);
+        const hash = await bcrypt.hash(resetToken, Number(salt));
+
+        await new Token({
+            userId: user._id,
+            token: hash,
+            createdAt: Date.now(),
+        }).save();
+
+        const link = `${process.env.CLIENT_URL}/passwordReset/${resetToken}/${user._id}`;
+        await sendEmail(user.email, "Password Reset Request", {
+            name: user.name,
+            link: link,
+        }, '../services/template/requestResetPassword.handlebars');
+        res.status(200).send({
+            message: 'success',
+            //link: link
+        })
+    }
+})
+
+router.post('/reset', async (req, res) => {
+    const passwordResetToken = await Token.findOne({userId : req.body.userId});
+    if(!passwordResetToken) {
+        res.status(404).send({
+            message: 'Invalid or expired password reset token!'
+        })
+    } else {
+        const isValid = await bcrypt.compare(req.body.token, passwordResetToken.token);
+        if(!isValid) {
+            res.status(404).send({
+                message: 'Invalid or expired password reset token!'
+            })
+        } else {
+            const salt = await bcrypt.genSalt(10);
+            const pw_hash = await bcrypt.hash(req.body.password, salt);
+            await User.updateOne(
+                {_id: req.body.userId},
+                {$set: {password: pw_hash}},
+                {new: true}
+            );
+            const user = await User.findById({_id: req.body.userId})
+            await sendEmail(user.email, "Password successfully reset!", {
+                name: user.name,
+            }, '../services/template/successfullyResetPassword.handlebars')
+            res.status(200).send({
+                message: 'success'
+            })
+        }
+    }
 })
 
 module.exports = router;
