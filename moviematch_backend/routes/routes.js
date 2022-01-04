@@ -3,9 +3,9 @@ const User = require('../models/user')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const crypto = require('crypto')
-require('dotenv/config')
 const sendEmail = require("../services/sendMail");
 const Token = require("../models/token")
+require('dotenv/config')
 
 router.post('/register', async (req, res) => {
     const duplicate = await User.findOne({email: req.body.email})
@@ -87,7 +87,6 @@ router.get("/user", async (req, res) => {
 
 router.post('/logout', (req,res) => {
     res.cookie('jwt', '', {maxAge: 0})
-
     res.send({
         message: 'success'
     })
@@ -112,8 +111,8 @@ router.post('/forgot-password', async (req, res) => {
         }).save();
 
         const link = `${process.env.CLIENT_URL}/passwordReset/${resetToken}/${user._id}`;
-        await sendEmail(user.email, "Password Reset Request", {
-            name: user.name,
+        await sendEmail(user.email, "MovieMatch Password Reset Request", {
+            name: user.username,
             link: link,
         }, '../services/template/requestResetPassword.handlebars');
         res.status(200).send({
@@ -151,6 +150,19 @@ router.post('/reset', async (req, res) => {
                 message: 'success'
             })
         }
+    }
+})
+
+router.get('/getUser', async (req, res) => {
+    const username = req.query.username;
+    const user = await User.findOne({username});
+    if (user) {
+        const {password, ...data} = user.toJSON();
+        res.status(200).send(data);
+    } else {
+        res.status(404).send({
+            message: 'user not found!'
+        })
     }
 })
 
