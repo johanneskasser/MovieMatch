@@ -44,16 +44,10 @@ module.exports = {
     },
     async getFriends (req, res) {
         const user = req.query.id;
-        const ownFriends = req.query.yourFriends;
         const accepted = req.query.accepted
         //console.log(accepted)
         //console.log(user)
-        const friendRequests = await Friendship.find({
-            $or: [
-                {requestedFriend: user, accepted: accepted},
-                {requestingFriend: ownFriends, accepted: accepted}
-            ]
-        })
+        const friendRequests = await Friendship.find({requestedFriend: user, accepted: accepted})
         //console.log(friendRequests)
         if(friendRequests){
             res.status(200).send(friendRequests)
