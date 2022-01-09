@@ -95,7 +95,26 @@ module.exports = {
                 })
             }
         }
-
+    },
+    async deleteFriendship(req,res) {
+        const a = req.query.a
+        const b = req.query.b
+        //console.log(a,b)
+        try {
+            await Friendship.deleteOne({
+                $or: [
+                    {requestingFriend: a, requestedFriend: b},
+                    {requestingFriend: b, requestedFriend: a}
+                ]
+            })
+            res.status(200).send({
+                message: 'success'
+            })
+        } catch (e) {
+            res.status(400).send({
+                message: 'error'
+            })
+        }
     }
 }
 

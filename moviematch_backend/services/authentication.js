@@ -142,7 +142,7 @@ module.exports = {
                 );
                 const user = await User.findById({_id: req.body.userId})
                 await sendEmail(user.email, "Password successfully reset!", {
-                    name: user.name,
+                    name: user.username,
                 }, '../services/template/successfullyResetPassword.handlebars')
                 res.status(200).send({
                     message: 'success'

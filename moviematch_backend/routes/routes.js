@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const userhandling = require("../services/userhandling")
 const authentication = require("../services/authentication")
+const netflixapi = require('../services/netflixapi')
 
 router.post('/register', authentication.register);
 
@@ -21,5 +22,9 @@ router.put('/requestUser', userhandling.requestUser);
 router.get('/getFriends', userhandling.getFriends)
 
 router.put('/manageFriendship', userhandling.manageFriendship)
+
+router.delete('/delete-friendship', userhandling.deleteFriendship);
+
+router.get('/getMovies', netflixapi.getMovies)
 
 module.exports = router;

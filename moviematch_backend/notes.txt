@@ -12,3 +12,7 @@ npm install jsonwebtoken
 
 download mongodb here: https://docs.mongodb.com/manual/tutorial/install-mongodb-on-windows-unattended/
 --> follow the instructions
+
+
+API KEY: f1afdcbc13b776ab67da54091f07d793
+https://api.themoviedb.org/3/genre/movie/list?api_key=f1afdcbc13b776ab67da54091f07d793&language=en-US
