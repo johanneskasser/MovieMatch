@@ -27,4 +27,6 @@ router.delete('/delete-friendship', userhandling.deleteFriendship);
 
 router.get('/getMovies', netflixapi.getMovies)
 
+router.get('/getMovieImg', netflixapi.getMovieImg)
+
 module.exports = router;
