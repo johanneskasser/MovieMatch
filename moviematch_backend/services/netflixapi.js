@@ -45,7 +45,12 @@ module.exports = {
 
         //console.log(requestingFriend, requestedFriend)
 
-        const result = await Match.findOne({requestingFriend: requestingFriend, requestedFriend: requestedFriend});
+        const result = await Match.findOne({
+            $or: [
+                {requestingFriend: requestingFriend, requestedFriend: requestedFriend},
+                {requestingFriend: requestedFriend, requestedFriend: requestingFriend}
+            ]
+        });
 
         let liked_requesting = []
         let liked_requested = []
