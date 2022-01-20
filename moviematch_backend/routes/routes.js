@@ -34,4 +34,6 @@ router.post('/createMatch', matchHandling.createMatch)
 
 router.get('/getMatches', matchHandling.getMatchRequests)
 
+router.get('/getCommonMovies', netflixapi.getCommonMovies)
+
 module.exports = router;
