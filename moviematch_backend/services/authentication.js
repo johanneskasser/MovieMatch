@@ -1,4 +1,5 @@
 const User = require("../models/user");
+const { checkIf } = require("tiny-checker")
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const Token = require("../models/token");
@@ -8,6 +9,7 @@ const sendEmail = require("../services/sendMail");
 
 module.exports = {
     async register (req, res) {
+
         const duplicate = await User.findOne({
             $or: [
                 {email: req.body.email},
@@ -21,19 +23,30 @@ module.exports = {
         }
 
         if(!duplicate) {
-            const salt = await bcrypt.genSalt(10)
-            const hashedPW = await bcrypt.hash(req.body.password, salt)
+            const errors = checkIf(req.body.password)
+                .hasMinLength(7, "Please provide a Password longer than 7 characters!")
+                .hasLowerCase(1, "Please provide at least one Lower Case Character!")
+                .hasUpperCase(1, "Please provide at least one Upper Case Character!")
+                .hasDigit(1, "Please provide at least one Digit!")
+                .hasErrors()
 
-            const user = new User ({
-                username: req.body.username,
-                email: req.body.email,
-                password: hashedPW,
-            })
-            const result = await user.save()
+            if(errors.length > 0) {
+                res.status(401).send(errors)
+            } else {
+                const salt = await bcrypt.genSalt(10)
+                const hashedPW = await bcrypt.hash(req.body.password, salt)
 
-            const {password, ...data} = await result.toJSON()      //Deconstruct the data to exclude password
+                const user = new User ({
+                    username: req.body.username,
+                    email: req.body.email,
+                    password: hashedPW,
+                })
+                const result = await user.save()
 
-            res.send(data)
+                const {password, ...data} = await result.toJSON()      //Deconstruct the data to exclude password
+
+                res.send(data)
+            }
         }
     },
     async login(req, res) {
