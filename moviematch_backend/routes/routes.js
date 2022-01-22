@@ -36,4 +36,6 @@ router.get('/getMatches', matchHandling.getMatchRequests)
 
 router.get('/getCommonMovies', netflixapi.getCommonMovies)
 
+router.delete('/deleteMatch', matchHandling.deleteMatch)
+
 module.exports = router;

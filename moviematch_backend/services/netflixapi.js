@@ -1,5 +1,4 @@
 const Match = require("../models/match");
-const request = require('request');
 const axios = require("axios");
 
 
@@ -27,6 +26,7 @@ module.exports = {
             //console.log(id)
         } else {
             res.status(404).send();
+            return
         }
 
         let movies = [];

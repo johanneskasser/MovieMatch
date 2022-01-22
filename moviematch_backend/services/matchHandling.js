@@ -9,7 +9,17 @@ module.exports = {
 
 
         try {
-            const response = await Match.find({requestedFriend: requestedFriend, matchedBack: matchedBack})
+            let response;
+            if(matchedBack) {
+                response = await Match.find({
+                    $or: [
+                        {requestedFriend: requestedFriend, matchedBack: matchedBack},
+                        {requestingFriend: requestedFriend, matchedBack: matchedBack}
+                    ]
+                })
+            } else {
+                response = await Match.find({requestedFriend: requestedFriend, matchedBack: matchedBack})
+            }
             res.status(200).send(response)
         } catch (e) {
             res.status(404).send({message: "No Matches Found!"});
@@ -31,7 +41,7 @@ module.exports = {
 
         if(!matchedBack) {
             if(duplicate) {
-                res.send(400).send({message: "Match does already exist!"})
+                res.status(400).send({message: "Match does already exist!"})
             } else {
                 try {
                     await new Match({
@@ -58,6 +68,13 @@ module.exports = {
                 res.status(404).send(e)
             }
         }
+    },
+    async deleteMatch(req, res) {
+        try {
+            await Match.deleteOne({_id: req.query._id})
+            res.status(200).send({message: "success"})
+        } catch (e) {
+            res.status(400).send(e)
+        }
     }
-
 }
