@@ -24,7 +24,7 @@ module.exports = {
 
         if(!duplicate) {
             const errors = checkIf(req.body.password)
-                .hasMinLength(7, "Please provide a Password longer than 7 characters!")
+                .hasMinLength(10, "Please provide a Password longer than 10 characters!")
                 .hasLowerCase(1, "Please provide at least one Lower Case Character!")
                 .hasUpperCase(1, "Please provide at least one Upper Case Character!")
                 .hasDigit(1, "Please provide at least one Digit!")

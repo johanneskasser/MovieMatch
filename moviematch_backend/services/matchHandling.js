@@ -6,11 +6,9 @@ module.exports = {
         const matchedBack = req.query.matchedBack;
 
         //console.log(requestedFriend, matchedBack)
-
-
         try {
             let response;
-            if(matchedBack) {
+            if(matchedBack === 'true') {
                 response = await Match.find({
                     $or: [
                         {requestedFriend: requestedFriend, matchedBack: matchedBack},
